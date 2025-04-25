@@ -29,7 +29,7 @@ def compute_item_similarity(R):
 def parse_args():
     parser = argparse.ArgumentParser(description='Item-CF with validation and performance metrics')
     parser.add_argument('--no-val', action='store_true', help='Disable validation split')
-    parser.add_argument('--val-ratio', type=float, default=0.1, help='Fraction for validation')
+    parser.add_argument('--val-ratio', type=float, default=0.05, help='Fraction for validation')
     parser.add_argument('--seed', type=int, default=42, help='Random seed')
     parser.add_argument('--K', type=int, default=10, help='Number of top-K neighbors')
     parser.add_argument('--test-output', type=str, default='test_prediction.csv', help='Output file for test predictions')
@@ -111,6 +111,9 @@ def main():
 
     # 9. Test predictions
     pred_test = pred_all[test_u:, test_i:]
+    assert pred_test.shape == (n_users - test_u, n_items - test_i), "Test prediction shape mismatch"
+    assert not np.isnan(pred_test).any()
+    assert not np.isinf(pred_test).any()
     np.savetxt(args.test_output, pred_test, fmt='%d', delimiter=',')
     print(f"Test predictions saved to {args.test_output} with shape {pred_test.shape}")
 
