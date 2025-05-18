@@ -48,7 +48,7 @@ def load_graph_sparse_v2(path, num_nodes=None):
     return M
 
 
-def load_graph_sparse(path, num_nodes=None):
+def load_graph_sparse_v1(path, num_nodes=None):
     """
     Load edge list from CSV and build CSR sparse matrix M where M[j,i] = 1/out_degree(i)
     representing links from node i to j (column-stochastic).
